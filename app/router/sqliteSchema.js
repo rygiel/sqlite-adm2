@@ -41,14 +41,18 @@ var sqliteSchema = Class.create ( base, {
 
 	tables: function(req,res){
 
-		if (fs.existsSync( this._path +'/' + req.params.dbname ) === false ) { 
-			this.error(res, 'File not found');
-			return ;
-		}
+		var that = this ; 
 
 		var db = new schema( this._path + '/' +req.params.dbname );
-		db.getTables(function(tables){
+		
+		db.getTables().then(function( tables ){
+
 			res.json({ tables: tables });
+
+		}).fail(function(error){
+
+			that.error(res , error );
+
 		});
 
 	},

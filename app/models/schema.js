@@ -1,7 +1,8 @@
 var Class		= require('Class') ;
 var _ 			= require('underscore') ;
 var sqlite		= require('sqlite3').verbose();
-
+var Q			= require('q');
+var fs 			= require('fs');
 
 /** 
  *
@@ -25,25 +26,41 @@ var schema = Class.create({
 	 * @method getTables
 	 * @param callBack
 	 */
-	getTables: function(callBack){
+	getTables: function(){
 
-		var db = new sqlite.Database( this._db );
+		var deferred = Q.defer() ; 
 
-		var result = [] ; 
+		if (fs.existsSync( this._db ) === false ) { 
+			
+			deferred.reject('File not found') ; 
 
-		db.each('SELECT name FROM sqlite_master WHERE type="table"', function(err, row) {
-		
-			result.push( row.name );     		
+		} else {
 
-  		});
+			var db = new sqlite.Database( this._db );
+			var result = [] ; 
+			db.each('SELECT name FROM sqlite_master WHERE type="table"', function(err, row) {
 
-  		db.close(function(){
 
-  			if ( _.isFunction( callBack ) ){
-				callBack( result );
-			}
+				if ( err ){
 
-  		});
+					deferred.reject( err ) ; 
+
+				} else { 
+
+					result.push( row.name );     		
+				}
+	  		});
+
+	  		db.close(function(){
+
+	  			deferred.resolve(result) ; 
+
+	  		});
+
+
+  		}
+
+  		return deferred.promise ; 
 
 	},
 	/**
