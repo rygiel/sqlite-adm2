@@ -2,6 +2,7 @@ var Class		= require('Class') ;
 var _ 			= require('underscore') ;
 var glob 		= require('glob') ;
 var path 		= require('path') ; 
+var Q			= require('q');
 
 
 /** 
@@ -24,24 +25,34 @@ var databases = Class.create({
 	/**
 	 *
 	 * @method get
-	 * @param callBack
+	 * @return promise
 	 */
-	get: function(callBack){
+	get: function(){
 
-		glob( this._path+'/*.'+this._ext , {nodir:1} , function (er, files) {
-
-			_.each(files , function(value, key, list ){
-				list[key] = { basename: path.basename(  value )  , path: value };
-			});
-
-			if ( _.isFunction( callBack ) ){
+		var deferred = Q.defer() ; 
 
 
+		glob( this._path+'/*.'+this._ext , {nodir:1} , function (err, files) {
 
-				callBack( files );
+			if ( err ){
+
+				deferred.reject( err ) ; 
+
+			} else {
+
+				_.each(files , function(value, key, list ){
+					list[key] = { basename: path.basename(  value )  , path: value };
+				});
+
+				deferred.resolve(list) ; 
+
 			}
 
+
 		});
+
+  		return deferred.promise ; 
+
 
 	}
 

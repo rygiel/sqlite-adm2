@@ -44,7 +44,6 @@ var sqliteQuery = Class.create ( base, {
 
 	query: function(req , res ){
 		
-		console.log(req.body.statement);
 
 		this.result(req.body.statement , this._path +'/' + req.params.dbname , res );
 

@@ -58,11 +58,18 @@ var sqliteSchema = Class.create ( base, {
 	},
 
 	databases: function(req, res){
+
+		var that = this ; 
+
 		var list = new databases( this._path );
 
-		list.get(function(result){
+		list.get().then(function( result ){
 
 			res.json({ databases: result  });
+
+		}).fail(function(error){
+
+			that.error(res , error );
 
 		}); 
 				
@@ -70,32 +77,55 @@ var sqliteSchema = Class.create ( base, {
 
 	indexes: function(req, res){
 
+		var that = this ; 
+
 		var list = new schema( this._path + '/' +req.params.dbname );
 
-		list.getIndexes(function(result){
+		list.getIndexes().then(function(result){
 
 			res.json({ indexes: result  });
 
-		}); 
+		}).fail(function(error){
+
+			that.error(res , error );
+
+		});
 
 	},
 
 	columns: function(req, res){
+
+		var that = this ; 
+
 		var list = new schema( this._path + '/' +req.params.dbname );
 
-		list.getColumns( req.params.tblname , function(result ){
+		list.getColumns( req.params.tblname ).then(function(){
 
 			res.json({ columns: result  });
 
+		}).fail(function(error){
+
+			that.error(res , error );
+
 		});
+
+
+		
 	},
 
 	dump: function(req , res ){
+
+		var that = this ; 
+
 		var list = new schema( this._path + '/' +req.params.dbname );
 
-		list.toSql(function(result){
+		list.toSql().then(function(result){
 
 			res.json({ dump: result  });
+
+		}).fail(function(error){
+
+			that.error(res , error );
 
 		}); 
 	}
