@@ -5,7 +5,7 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/rygiel/"
+    "url": "https://github.com/rygiel/sqlite-adm2"
   },
   "scripts": {
     "start": "node server.js"
