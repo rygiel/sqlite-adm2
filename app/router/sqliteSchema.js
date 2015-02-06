@@ -13,9 +13,8 @@ var base		= require('./base');
 var sqliteSchema = Class.create ( base, {
 	
 	
-	events: {
+	routes: {
 
-		'/': 						{get:'default'	},
 		'/databases': 				{get:'databases'},
 		'/tables/:dbname': 			{get:'tables'	},
 		'/indexes/:dbname': 		{get:'indexes'	},
@@ -28,16 +27,11 @@ var sqliteSchema = Class.create ( base, {
 	initialize: function($super , path){
 		$super();
 		this._path = path ; 
-		this.delegateEvents( this.events ) ;
+		this.delegateRoutes( this.routes ) ;
 
 		
 	},
 	
-
-	
-	default: function(req,res){
-		res.json({ message: 'sqliteAdmin' });	
-	},
 
 	tables: function(req,res){
 
@@ -46,13 +40,9 @@ var sqliteSchema = Class.create ( base, {
 		var db = new schema( this._path + '/' +req.params.dbname );
 		
 		db.getTables().then(function( tables ){
-
 			res.json({ tables: tables });
-
 		}).fail(function(error){
-
 			that.error(res , error );
-
 		});
 
 	},
@@ -64,13 +54,9 @@ var sqliteSchema = Class.create ( base, {
 		var list = new databases( this._path );
 
 		list.get().then(function( result ){
-
 			res.json({ databases: result  });
-
 		}).fail(function(error){
-
 			that.error(res , error );
-
 		}); 
 				
 	},
@@ -78,17 +64,11 @@ var sqliteSchema = Class.create ( base, {
 	indexes: function(req, res){
 
 		var that = this ; 
-
 		var list = new schema( this._path + '/' +req.params.dbname );
-
 		list.getIndexes().then(function(result){
-
 			res.json({ indexes: result  });
-
 		}).fail(function(error){
-
 			that.error(res , error );
-
 		});
 
 	},
@@ -98,15 +78,10 @@ var sqliteSchema = Class.create ( base, {
 		var that = this ; 
 
 		var list = new schema( this._path + '/' +req.params.dbname );
-
-		list.getColumns( req.params.tblname ).then(function(){
-
+		list.getColumns( req.params.tblname ).then(function(result){
 			res.json({ columns: result  });
-
 		}).fail(function(error){
-
 			that.error(res , error );
-
 		});
 
 
@@ -116,18 +91,13 @@ var sqliteSchema = Class.create ( base, {
 	dump: function(req , res ){
 
 		var that = this ; 
-
 		var list = new schema( this._path + '/' +req.params.dbname );
-
 		list.toSql().then(function(result){
-
 			res.json({ dump: result  });
-
 		}).fail(function(error){
-
 			that.error(res , error );
-
 		}); 
+
 	}
 
 });

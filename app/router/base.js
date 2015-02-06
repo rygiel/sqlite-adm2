@@ -27,12 +27,12 @@ var base = Class.create({
 	},
 
 
-	delegateEvents: function(events){
+	delegateRoutes: function(routes){
 
 		var that = this ; 
 
 
-		_.each( events , function(value, key, list) {
+		_.each( routes , function(value, key, list) {
 
 			var route = that.router.route( key );
 

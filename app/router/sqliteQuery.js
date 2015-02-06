@@ -15,11 +15,9 @@ var query		= require('../models/query');
 var sqliteQuery = Class.create ( base, {
 	
 	
-	events: {
+	routes: {
 
-		'/': 						{get:'default'	},
 		'/select/:dbname/:tblname':	{get:'select'} ,
-		'/select/:dbname/:tblname':	{get:'select' },
 		'/query/:dbname':			{post:'query'}
 	},
 
@@ -27,26 +25,25 @@ var sqliteQuery = Class.create ( base, {
 	initialize: function($super , path){
 		$super();
 		this._path = path ; 
-		this.delegateEvents( this.events ) ;
+		this.delegateRoutes( this.routes ) ;
 
 
 	},
 	
 	result: function(sql , pathDb , res ){
-
+		var that = this ; 
 		var db = new query( pathDb );
-		db.data(sql , function(result){
-			res.json({ result: result });	
+		db.data(sql ).then(function(result){
+			res.json({ result: result });		
+		}).fail(function(error){
+			that.error(res , error );
 		});
 
 	},
 
 
 	query: function(req , res ){
-		
-
 		this.result(req.body.statement , this._path +'/' + req.params.dbname , res );
-
 	},	
 
 	select: function(req,res){
@@ -54,14 +51,7 @@ var sqliteQuery = Class.create ( base, {
 		var sql = 'SELECT * FROM '+req.params.tblname+' LIMIT 0,10';
 		this.result(sql , this._path +'/' + req.params.dbname , res );
 
-	},
-
-	
-	default: function(req,res){
-		res.json({ message: 'sqliteAdmin' });	
 	}
-
-	
 
 });
 
