@@ -9,7 +9,9 @@
 
   <tbody>
     <tr ng-repeat="row in $data">
-      <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
+      <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >
+        <a ui-sref="databaseTableBrowse( { dbName: stateParams.dbName , tableName: row.name })">{{ row[key] }}</a>
+      </td>
       <td>
 
         <div class="btn-group">
