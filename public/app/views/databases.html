@@ -1,0 +1,37 @@
+
+
+
+<table class="table table-bordered table-hover" ng-table="tableParams">
+
+  <tbody>
+    <tr ng-repeat="row in $data">
+      <td data-title="'basename'"><a ui-sref="databaseTables({ dbName: row.basename })" title="Tables">{{ row.basename }}</a></td>
+      <td>
+
+
+      <div class="btn-group">
+
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          Action <span class="caret"></span>
+        </button>
+
+        <ul class="dropdown-menu" role="menu">
+
+          <li><a ui-sref="databaseTables({ dbName: row.basename })">Tables</a></li>
+          <li><a ng-sref="#/sql/{{ row.basename }}">Sql</a></li>
+          <li><a ng-sref="#/views/{{ row.basename }}">Views</a></li>
+          <li><a ng-sref="#/indexes/{{ row.basename }}">Indexes</a></li>
+
+        </ul>
+
+      </div>
+
+
+
+
+
+      </td>
+
+    </tr>
+  </tbody>
+</table>

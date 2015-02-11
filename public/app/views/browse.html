@@ -1,0 +1,27 @@
+
+<table class="table table-bordered table-hover" ng-table="tableParams">
+
+  <thead>
+    <tr>
+      <th ng-repeat="key in keyWords">{{ key }}</th>
+
+
+    </tr>
+  </thead>
+
+
+  <tbody>
+    <tr ng-repeat="row in $data">
+
+
+
+      <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
+
+      <td>
+        <a class="btn btn-default" ng-href="">Edit</a>
+        <a class="btn btn-default" ng-href="">Delete</a>
+
+      </td>
+    </tr>
+  </tbody>
+</table>

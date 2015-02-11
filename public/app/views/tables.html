@@ -1,0 +1,35 @@
+<ng-include src="'app/views/breadcrumb.html'"></ng-include>
+
+<table class="table table-bordered table-hover" ng-table="tableParams">
+  <thead>
+    <tr>
+      <th ng-repeat="key in keyWords">{{ key }}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="row in $data">
+      <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
+      <td>
+
+        <div class="btn-group">
+
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Action <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a ui-sref="databaseTableBrowse( { dbName: stateParams.dbName , tableName: row.name })">Browse</a></li>
+            <li><a ng-href="#/sql/{{ stateParams.dbName }}/{{ row.name }}">Sql</a></li>
+            <li><a ui-sref="databaseTableStructure( { dbName: stateParams.dbName , tableName: row.name } )">Structure</a></li>
+          </ul>
+
+        </div>
+
+
+
+      </td>
+
+    </tr>
+  </tbody>
+</table>
