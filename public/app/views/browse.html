@@ -1,5 +1,6 @@
+<h1 class="page-header">Browse</h1>
 
-<table class="table table-bordered table-hover" ng-table="tableParams">
+<table class="table table-striped" ng-table="tableParams">
 
   <thead>
     <tr>
@@ -18,8 +19,21 @@
       <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
 
       <td>
-        <a class="btn btn-default" ng-href="">Edit</a>
-        <a class="btn btn-default" ng-href="">Delete</a>
+        
+
+        <div class="btn-group">
+
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Action <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-href="">Edit</a></li>
+            <li><a ng-href="">Delete</a></li>
+          </ul>
+
+        </div>
+
 
       </td>
     </tr>

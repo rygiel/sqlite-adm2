@@ -1,5 +1,6 @@
+<h1 class="page-header">Structure</h1>
 
-<table class="table table-bordered table-hover" ng-table="tableParams">
+<table class="table table-striped" ng-table="tableParams">
   <thead>
     <tr>
       <th ng-repeat="key in keyWords">{{ key }}</th>
@@ -10,9 +11,19 @@
     <tr ng-repeat="row in $data">
       <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
       <td>
-        <a class="btn btn-default" ui-sref="">Edit</a>
 
-        <a class="btn btn-default" ui-sref="">Remove</a>
+       <div class="btn-group">
+
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            Action <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu" role="menu">
+            <li><a ng-href="">Edit</a></li>
+            <li><a ng-href="">Remove</a></li>
+          </ul>
+
+        </div>
 
 
 

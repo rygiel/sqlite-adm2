@@ -9,12 +9,14 @@
  *
  */
 angular.module('sulidaeApp', [
+
         'ngCookies',
         'ngResource',
         'ngRoute',
         'ngTouch',
         'ngTable',
         'ui.router'
+        
     ])
 
 

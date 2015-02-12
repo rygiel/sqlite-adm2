@@ -10,6 +10,8 @@
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -34,7 +36,7 @@
   <script src="bower_components/ng-table/ng-table.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="bower_components/ng-breadcrumbs/dist/ng-breadcrumbs.min.js"></script>
-
+  <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
   <script src="bower_components/underscore/underscore.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
@@ -50,35 +52,92 @@
   <script src="app/scripts/controllers/BaseController.js"></script>
 
   <script src="app/scripts/controllers/GridController.js"></script>
+  <script src="app/scripts/controllers/TreeController.js"></script>
 
 
   <!-- endbuild -->
 
+
+
 </head>
 <body ng-app="sulidaeApp">
-  <!--[if lt IE 7]>
-  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+ 
 
-  <!-- Add your site or application content here -->
-  <div class="container">
-    <div class="header">
-      <ul class="nav nav-pills pull-left" ng-controller="NavigationController">
-        <li ng-class="navClass('databases')"><a ui-sref="databases">Databases</a></li>
-      </ul>
+ <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" ui-sref="databases">Sqlite admin tool</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li ng-class="navClass('databases')"><a ui-sref="databases">Databases</a></li>
+            <li ><a >Settings</a></li>
+            <li ><a >About</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+
+          <div ng-controller="TreeController">
+
+          <div ui-tree id="tree-root">
+            <ul ui-tree-nodes="" ng-model="data">
+              
+              <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+
+            </ul>
+          </div>
+
+
+        </div>
+
+
+
+          </div>
+          
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+          <div ui-view=""></div>
+
+
+
+        </div>
+      </div>
     </div>
-    <br clear=all>
-
-      <div ui-view=""></div>
 
 
-    <div class="footer">
-      <p>Sulidae - sqlite admin tool</p>
-    </div>
+      <script type="text/ng-template" id="nodes_renderer.html">
+
+  <div ui-tree-handle class="tree-node tree-node-content">
+  <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+  {{node.title}}
+
+
+  
   </div>
 
 
+  <ul ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+    <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+  </ul>
 
+
+</script>
 
 
 </body>

@@ -5,10 +5,11 @@ var _ 			= require('underscore') ;
 var databases	= require('../models/databases');
 var schema		= require('../models/schema');
 var base		= require('./base');
+var Q			= require('q');
 
 /** 
  *
- * @class rest
+ * @class sqliteSchema
  */
 var sqliteSchema = Class.create ( base, {
 	
@@ -19,7 +20,8 @@ var sqliteSchema = Class.create ( base, {
 		'/tables/:dbname': 			{get:'tables'	},
 		'/indexes/:dbname': 		{get:'indexes'	},
 		'/columns/:dbname/:tblname':{get:'columns'	},
-		'/dump/:dbname':			{get:'dump'		}
+		'/dump/:dbname':			{get:'dump'		},
+		'/tree': 					{get:'tree'}
 
 	},
 
@@ -32,6 +34,46 @@ var sqliteSchema = Class.create ( base, {
 		
 	},
 	
+
+	tree: function(req , res ){
+
+		
+
+		var that = this ; 
+
+		var list = new databases( this._path );
+
+		list.get().then(function(listDatabases){
+
+			var promises = []; 
+
+			_.each(listDatabases, function(row){
+				
+				var db = new schema( row.path );
+				promises.push(db.getTables() );
+
+			});
+
+
+
+			Q.all(promises  ).then(function(tables){
+			
+				var result = [];
+				_.each(listDatabases, function(row , index ){
+					result.push( {database: row , tables: tables[index]});
+				});
+				res.json({ tree: result });
+
+			}).fail(function(error){
+				that.error(res , error );
+			});
+
+		}).fail(function(error){
+			that.error(res , error );
+		});
+
+
+	},
 
 	tables: function(req,res){
 
@@ -98,7 +140,8 @@ var sqliteSchema = Class.create ( base, {
 			that.error(res , error );
 		}); 
 
-	}
+	},
+
 
 });
 
