@@ -1,51 +1,50 @@
 TreeController = Class.extend( {
 
   init: function($scope ,  $http ){
+  	var that = this ; 
 
-  	$scope.data = [ ] ; 
-  	
+  	this.$scope = $scope ; 
 
-  	 $http.get('/schema/tree' ).success(function(data) {
+  	this.$scope.data = [ ] ; 
 
-
-  	 	var id = 1 ;
-  	 	_.each(data.tree , function(row ){
-
-  	 		console.log( row );
-
-
-  	 		var nodes = [];
-  	 		_.each( row.tables , function(tableName ){
-
-  	 			nodes.push( { id:id , title : tableName.name , nodes:[] } );
-
-  	 			id++;
-  	 		});
-
-  	 		$scope.data . push( { id:id , title : row.database.basename , nodes:nodes } );
-
-
-  	 		id++;
-  	 	});
-
+  	$http.get('/schema/tree' ).success(function(data) {
+  		that.createTree(data);
   	 });
 
 	
 
-	/*
-
-		{"id": 1,"title": "node1","nodes": [
-
-			{"id": 3,"title": "subNode1","nodes": []}
-
-		]} ,
-		{"id": 2,"title": "node2","nodes": []} 
-
-	];
-
-  	*/
+	
 
 
+  },
+
+  createTree: function(data){
+  	var that = this ; 
+ 	_.each(data.tree , function(row ){
+
+ 		var nodes = [];
+ 		_.each( row.tables , function(tableName ){
+
+ 			nodes.push( {  
+ 				title : tableName.name ,
+ 				sref:'databaseTableStructure',
+ 				srefParam:{ dbName: row.database.basename , tableName: tableName.name } , 
+ 				nodes:[] 
+ 			} );
+
+ 		});
+
+ 		that.$scope.data . push( {  
+ 			
+ 			title : row.database.basename ,
+ 			sref: 'databaseTables',
+ 			srefParam: { dbName:row.database.basename }
+
+ 			, nodes:nodes } );
+
+
+ 		id++;
+ 	});
   }
 
 

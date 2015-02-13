@@ -1,5 +1,6 @@
 
-<h1 class="page-header">Databases</h1>
+
+<div ncy-breadcrumb></div>
 
 
 <table class="table table-striped" ng-table="tableParams">
@@ -19,7 +20,7 @@
         <ul class="dropdown-menu" role="menu">
 
           <li><a ui-sref="databaseTables({ dbName: row.basename })">Tables</a></li>
-          <li><a ng-sref="#/sql/{{ row.basename }}">Sql</a></li>
+          <li><a ng-sref="sqlEditor( { row.basename } )">Sql</a></li>
           <li><a ng-sref="#/views/{{ row.basename }}">Views</a></li>
           <li><a ng-sref="#/indexes/{{ row.basename }}">Indexes</a></li>
 

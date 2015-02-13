@@ -15,14 +15,17 @@ angular.module('sulidaeApp', [
         'ngRoute',
         'ngTouch',
         'ngTable',
-        'ui.router'
+        'ui.router',
+        'ui.tree',
+        'ui.codemirror',
+        'ncy-angular-breadcrumb'
         
     ])
 
 
 .config(function ($stateProvider, $urlRouterProvider ) {
 
-  //$urlRouterProvider.otherwise('/databases');
+ // $urlRouterProvider.otherwise('/databases');
 
 
   $stateProvider.
@@ -33,7 +36,10 @@ angular.module('sulidaeApp', [
       controller:'GridController',
 
       resultIndex: 'databases' ,
-      requestUrl: '/schema/databases'
+      requestUrl: '/schema/databases',
+      ncyBreadcrumb: {
+        label: 'Databases'
+      }
 
     }).
 
@@ -51,7 +57,12 @@ angular.module('sulidaeApp', [
       controller:'GridController',
 
       resultIndex: 'tables' ,
-      requestUrl: '/schema/tables/:dbName'
+      requestUrl: '/schema/tables/:dbName',
+
+      ncyBreadcrumb: {
+        label: 'Tables {{ stateParams.dbName }}',
+        parent:'databases'
+      }
 
 
     }).
@@ -63,7 +74,12 @@ angular.module('sulidaeApp', [
       controller:'GridController',
 
       resultIndex: 'result' ,
-      requestUrl: '/data/select/:dbName/:tableName'
+      requestUrl: '/data/select/:dbName/:tableName' ,
+
+      ncyBreadcrumb: {
+        label: 'Browse {{ stateParams.tableName }}',
+        parent:'databaseTables'
+      }
 
 
 
@@ -75,7 +91,26 @@ angular.module('sulidaeApp', [
       controller:'GridController',
 
       resultIndex: 'columns' ,
-      requestUrl: '/schema/columns/:dbName/:tableName'
+      requestUrl: '/schema/columns/:dbName/:tableName',
+
+      ncyBreadcrumb: {
+        label: 'Structure',
+        parent:'databaseTables'
+      }
+
+
+
+    }).
+    state('sqlEditor',{
+
+      url:'/sql/:dbName/:tableName',
+      templateUrl:'app/views/sqlform.html',
+      controller:'SqlController',
+
+      ncyBreadcrumb: {
+        label: 'Sql',
+        parent:'databaseTables'
+      }
 
 
 
@@ -88,30 +123,16 @@ angular.module('sulidaeApp', [
 
 
 
-/*
-    $routeProvider
 
-    .when('/dbs', {
-        templateUrl: 'app/views/databases.html',
-        controller: 'DatabasesController',
-        label: 'Databases'
 
-    })
 
-    .when('/dbs/tbl/:dbname', {
-      templateUrl: 'app/views/tables.html',
-      controller: 'TablesController',
-      label: "Tables"
-    })
+}).run(function($rootScope, $state, $breadcrumb) {
 
-    .when('/dbs/tbl/brw/:dbname/:tblname', {
-      templateUrl: 'app/views/browse.html',
-      controller: 'BrowseController',
-      label:"Browse"
-    })
-
-    ;
-*/
+  $rootScope.isActive = function(stateName) {
+    return $state.includes(stateName);
+  }
 
 
 });
+
+

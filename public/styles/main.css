@@ -72,14 +72,11 @@ body {
  */
 
 .main {
-  padding: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-  }
-}
+
+
 .main .page-header {
   margin-top: 0;
 }
@@ -103,3 +100,20 @@ body {
   display: inline-block;
   border-radius: 50%;
 }
+
+
+#tree-root ul {
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+
+#tree-root ul ul {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 30px;
+}
+
+
+#tree-root li {
+  list-style: none ; 
+}
+

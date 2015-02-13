@@ -10,6 +10,8 @@
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/ng-table/ng-table.css" />
+  <link rel="stylesheet" type="text/css" href="bower_components/codemirror/lib/codemirror.css">
+
   <link rel="stylesheet" href="styles/main.css" />
 
   <!-- endbower -->
@@ -38,6 +40,11 @@
   <script src="bower_components/ng-breadcrumbs/dist/ng-breadcrumbs.min.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
   <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/codemirror/mode/sql/sql."></script>
+  <script src="bower_components/codemirror/lib/codemirror.js"></script>
+  <script src="bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+  <script src="bower_components/angular-breadcrumb/dist/angular-breadcrumb.js"></script>
+
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -53,6 +60,7 @@
 
   <script src="app/scripts/controllers/GridController.js"></script>
   <script src="app/scripts/controllers/TreeController.js"></script>
+  <script src="app/scripts/controllers/SqlController.js"></script>
 
 
   <!-- endbuild -->
@@ -93,7 +101,7 @@
 
           <div ng-controller="TreeController">
 
-          <div ui-tree id="tree-root">
+          <div ui-tree id="tree-root" id="tree">
             <ul ui-tree-nodes="" ng-model="data">
               
               <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
@@ -108,15 +116,14 @@
 
           </div>
           
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      </div>
 
-
+      <div class='row'> 
+        <div class="col-sm-6 col-md-10 col-sm-offset-6 col-md-offset-2 main">
           <div ui-view=""></div>
-
-
-
         </div>
+      </div>
+
       </div>
     </div>
 
@@ -124,8 +131,9 @@
       <script type="text/ng-template" id="nodes_renderer.html">
 
   <div ui-tree-handle class="tree-node tree-node-content">
-  <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-  {{node.title}}
+  <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0"  ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+ 
+  <a ui-sref="{{node.sref}}({{node.srefParam}})">{{node.title}}</a>
 
 
   
