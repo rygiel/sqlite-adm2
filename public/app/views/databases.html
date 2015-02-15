@@ -7,7 +7,7 @@
 
   <tbody>
     <tr ng-repeat="row in $data">
-      <td data-title="'basename'"><a ui-sref="databaseTables({ dbName: row.basename })" title="Tables">{{ row.basename }}</a></td>
+      <td data-title="'basename'"><a ui-sref="db({ dbName: row.basename })" title="Tables">{{ row.basename }}</a></td>
       <td>
 
 
@@ -19,7 +19,7 @@
 
         <ul class="dropdown-menu" role="menu">
 
-          <li><a ui-sref="databaseTables({ dbName: row.basename })">Tables</a></li>
+          <li><a ui-sref="db({ dbName: row.basename })">Tables</a></li>
           <li><a ng-sref="sqlEditor( { row.basename } )">Sql</a></li>
           <li><a ng-sref="#/views/{{ row.basename }}">Views</a></li>
           <li><a ng-sref="#/indexes/{{ row.basename }}">Indexes</a></li>

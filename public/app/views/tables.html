@@ -1,5 +1,6 @@
 
 <div ncy-breadcrumb></div>
+<ng-include src="'app/views/tabs.html'"></ng-include>
 
 
 <table class="table table-striped" ng-table="tableParams">
@@ -12,7 +13,7 @@
   <tbody>
     <tr ng-repeat="row in $data">
       <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >
-        <a ui-sref="databaseTableBrowse( { dbName: stateParams.dbName , tableName: row.name })">{{ row[key] }}</a>
+        <a ui-sref="table( { dbName: stateParams.dbName , tableName: row.name })">{{ row[key] }}</a>
       </td>
       <td>
 
@@ -23,9 +24,9 @@
           </button>
 
           <ul class="dropdown-menu" role="menu">
-            <li><a ui-sref="databaseTableBrowse( { dbName: stateParams.dbName , tableName: row.name })">Browse</a></li>
-            <li><a ng-href="#/sql/{{ stateParams.dbName }}/{{ row.name }}">Sql</a></li>
-            <li><a ui-sref="databaseTableStructure( { dbName: stateParams.dbName , tableName: row.name } )">Structure</a></li>
+            <li><a ui-sref="table.browse( { dbName: stateParams.dbName , tableName: row.name })">Browse</a></li>
+            <li><a ui-sref="table( { dbName: stateParams.dbName , tableName: row.name } )">Structure</a></li>
+            <li><a ui-sref="sql({ dbName: stateParams.dbName , tableName: row.name })">Sql</a></li>
           </ul>
 
         </div>

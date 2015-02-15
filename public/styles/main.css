@@ -33,6 +33,12 @@ body {
 .sidebar {
   display: none;
 }
+
+ul.nav-tabs li  {
+
+  margin-left:5px;
+}
+
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
@@ -72,8 +78,8 @@ body {
  */
 
 .main {
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 
@@ -114,6 +120,5 @@ body {
 
 
 #tree-root li {
-  list-style: none ; 
+  list-style: none ;
 }
-

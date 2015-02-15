@@ -1,8 +1,8 @@
 <!doctype html>
-<html class="no-js">
-<head>
+<html class="no-js" ng-app="sulidaeApp">
+<head >
   <meta charset="utf-8">
-  <title>Sulidae</title>
+  <title ncy-breadcrumb-last="{{ncyBreadcrumbLabel}}"></title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -61,6 +61,8 @@
   <script src="app/scripts/controllers/GridController.js"></script>
   <script src="app/scripts/controllers/TreeController.js"></script>
   <script src="app/scripts/controllers/SqlController.js"></script>
+  <script src="app/scripts/controllers/InsertController.js"></script>
+  <script src="app/scripts/controllers/UpdateController.js"></script>
 
 
   <!-- endbuild -->
@@ -68,8 +70,8 @@
 
 
 </head>
-<body ng-app="sulidaeApp">
- 
+<body >
+
 
  <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -103,7 +105,7 @@
 
           <div ui-tree id="tree-root" id="tree">
             <ul ui-tree-nodes="" ng-model="data">
-              
+
               <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
 
             </ul>
@@ -115,10 +117,10 @@
 
 
           </div>
-          
+
       </div>
 
-      <div class='row'> 
+      <div class='row'>
         <div class="col-sm-6 col-md-10 col-sm-offset-6 col-md-offset-2 main">
           <div ui-view=""></div>
         </div>
@@ -132,11 +134,11 @@
 
   <div ui-tree-handle class="tree-node tree-node-content">
   <a class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0"  ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
- 
+
   <a ui-sref="{{node.sref}}({{node.srefParam}})">{{node.title}}</a>
 
 
-  
+
   </div>
 
 

@@ -18,7 +18,14 @@ var sqliteQuery = Class.create ( base, {
 	routes: {
 
 		'/select/:dbname/:tblname':	{get:'select'} ,
-		'/query/:dbname':			{post:'query'}
+
+		'/query/:dbname':			{post:'query'},
+
+		'/insert/:dbname/:tblname':			{post:'insert'},
+
+		'/update/:dbname/:tblname/:rowid':			{post:'update'}
+
+
 	},
 
 
@@ -48,10 +55,64 @@ var sqliteQuery = Class.create ( base, {
 
 	select: function(req,res){
 
-		var sql = 'SELECT * FROM '+req.params.tblname+' LIMIT 0,100';
+		var sql = 'SELECT rowid , * FROM '+req.params.tblname+' LIMIT 0,100';
 		this.result(sql , this._path +'/' + req.params.dbname , res );
 
+	},
+
+	insert: function(req,res){
+
+		var keys = _.keys(req.body) ;
+		var values = [] ;
+		_.each ( keys ,  function (key){
+			values.push( "'"+req.body[key]+"'" );
+		}) ;
+
+
+		var sql = [
+			'INSERT INTO ',
+			req.params.tblname ,
+			' ( '+
+
+			keys.join(" , ") +
+
+			' ) ' +
+
+			' VALUES ( ' +
+			values.join( ' , ' ) +
+			' ) '
+
+
+		].join('');
+
+		this.result( sql ,this._path +'/' + req.params.dbname , res ) ;
+
+	},
+
+	update: function(req,res){
+
+		var keys = _.keys(req.body) ;
+		var values = [] ;
+		_.each ( keys ,  function (key){
+			values.push( key+ " = '"+req.body[key]+"'" );
+		}) ;
+
+
+		var sql = [
+		'UPDATE ',
+		req.params.tblname ,
+		' SET '+
+		values.join(' , ')+
+		' WHERE rowid='+
+		req.params.rowid
+
+		].join('');
+
+		this.result( sql ,this._path +'/' + req.params.dbname , res ) ;
+		
 	}
+
+
 
 });
 

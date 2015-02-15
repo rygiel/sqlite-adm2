@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs">
+  <li  ng-class="tabClass('table')"><a ui-sref="table( { dbName: stateParams.dbName , tableName: stateParams.tableName } )">Structure</a></li>
+  <li  ng-class="tabClass('table.browse')"><a ui-sref="table.browse( { dbName: stateParams.dbName , tableName: stateParams.tableName })">Browse</a></li>
+  <li  ng-class="tabClass('table.sql')"><a ui-sref="table.sql({ dbName: stateParams.dbName , tableName: stateParams.tableName })">Sql</a></li>
+</ul>

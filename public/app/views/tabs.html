@@ -1,0 +1,3 @@
+<ul class="nav nav-tabs">
+  <li ng-repeat="tab in tabs" ng-class="tabClass('{{ tab.state }}')" ><a ui-sref="{{tab.state}}({ dbName: stateParams.dbName , tableName: stateParams.tableName })">{{ tab.title }}</a></li>
+</ul>

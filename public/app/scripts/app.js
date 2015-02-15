@@ -15,17 +15,18 @@ angular.module('sulidaeApp', [
         'ngRoute',
         'ngTouch',
         'ngTable',
-        'ui.router',
-        'ui.tree',
+        'ui.router.state',
         'ui.codemirror',
         'ncy-angular-breadcrumb'
-        
+
     ])
 
 
 .config(function ($stateProvider, $urlRouterProvider ) {
 
- // $urlRouterProvider.otherwise('/databases');
+
+
+  $urlRouterProvider.otherwise('/databases');
 
 
   $stateProvider.
@@ -43,78 +44,177 @@ angular.module('sulidaeApp', [
 
     }).
 
-    state('database.struct',{
+    state('db',{
 
-      url:'/struct/:dbName/:tableName',
-      templateUrl:'app/views/tables.html',
-      controller:'GridController'
+      url:'/db/:dbName',
 
-    }).
-    state('databaseTables',{
+      views: {
+        '@':{
+          templateUrl:'app/views/tables.html',
+          controller:'GridController' ,
+        }
+      },
 
-      url:'/tables/:dbName ',
-      templateUrl:'app/views/tables.html',
-      controller:'GridController',
+      tabs: [
+      {state:'db', title:'Structure' },
+      {state:'db.create', title:'Create table'}
+      ],
+
 
       resultIndex: 'tables' ,
       requestUrl: '/schema/tables/:dbName',
 
       ncyBreadcrumb: {
-        label: 'Tables {{ stateParams.dbName }}',
-        parent:'databases'
+        label: '{{ stateParams.dbName }}',
+        parent: 'databases'
       }
 
 
     }).
 
-    state('databaseTableBrowse',{
+    state('table',{
 
-      url:'/table/:dbName/:tableName',
-      templateUrl:'app/views/browse.html',
-      controller:'GridController',
-
-      resultIndex: 'result' ,
-      requestUrl: '/data/select/:dbName/:tableName' ,
-
-      ncyBreadcrumb: {
-        label: 'Browse {{ stateParams.tableName }}',
-        parent:'databaseTables'
-      }
-
-
-
-    }).
-    state('databaseTableStructure',{
-
-      url:'/tble/structure/:dbName/:tableName',
+      url:'/table/:tableName/:dbName',
       templateUrl:'app/views/structure.html',
       controller:'GridController',
+
+      tabs: [
+              {state:'table', title:'Structure' },
+              {state:'table.browse', title:'Browse'} ,
+              {state:'table.insert', title:'Insert'} ,
+
+              {state:'table.sql', title:'Sql'}
+      ],
+
 
       resultIndex: 'columns' ,
       requestUrl: '/schema/columns/:dbName/:tableName',
 
       ncyBreadcrumb: {
-        label: 'Structure',
-        parent:'databaseTables'
+        label: '{{ stateParams.tableName }}',
+        parent: 'db'
+
       }
 
 
 
     }).
-    state('sqlEditor',{
 
-      url:'/sql/:dbName/:tableName',
-      templateUrl:'app/views/sqlform.html',
-      controller:'SqlController',
+    state('table.insert',{
+
+      url:'/insert',
+
+      views: {
+
+        '@':{
+          templateUrl:'app/views/insert.html',
+          controller:'InsertController',
+        }
+
+      },
+      tabs: [
+        {state:'table', title:'Structure' },
+        {state:'table.browse', title:'Browse'} ,
+        {state:'table.insert', title:'Insert'} ,
+
+        {state:'table.sql', title:'Sql'}
+      ],
+
+
+      resultIndex: 'columns' ,
+      requestUrl: '/schema/columns/:dbName/:tableName',
 
       ncyBreadcrumb: {
-        label: 'Sql',
-        parent:'databaseTables'
+        label: 'Insert'
+
       }
 
 
 
+    }).
+
+    state('table.update',{
+
+      url:'/update/:rowid',
+
+      views: {
+
+        '@':{
+          templateUrl:'app/views/insert.html',
+          controller:'UpdateController',
+        }
+
+      },
+      tabs: [
+        {state:'table', title:'Structure' },
+        {state:'table.browse', title:'Browse'} ,
+        {state:'table.update', title:'Update'} ,
+        {state:'table.sql', title:'Sql'}
+      ],
+
+
+      resultIndex: 'columns' ,
+      requestUrl: '/schema/columns/:dbName/:tableName',
+
+      ncyBreadcrumb: {
+        label: 'Update'
+
+      }
+
+
+
+    }).
+
+    state('table.browse',{
+
+      url:'/browse',
+
+      views: {
+        '@':{
+          controller:'GridController',
+          templateUrl:'app/views/browse.html'
+        }
+      },
+      tabs: [
+        {state:'table', title:'Structure' },
+        {state:'table.browse', title:'Browse'} ,
+        {state:'table.insert', title:'Insert'} ,
+        {state:'table.sql', title:'Sql'}
+      ],
+      resultIndex: 'result' ,
+      requestUrl: '/data/select/:dbName/:tableName' ,
+
+      ncyBreadcrumb: {
+        label: 'browse'
+      }
+
+    }).
+    state('table.sql',{
+
+      url:'/sql',
+
+      views: {
+        '@':{
+          controller:'SqlController',
+          templateUrl:'app/views/sqlform.html'
+        }
+      },
+
+      tabs: [
+        {state:'table', title:'Structure' },
+        {state:'table.browse', title:'Browse'} ,
+        {state:'table.insert', title:'Insert'} ,
+        {state:'table.sql', title:'Sql'}
+      ],
+      resultIndex: 'result' ,
+      requestUrl: '/data/select/:dbName/:tableName' ,
+
+      ncyBreadcrumb: {
+        label: 'sql'
+      }
+
     })
+
 
 
 
@@ -126,13 +226,4 @@ angular.module('sulidaeApp', [
 
 
 
-}).run(function($rootScope, $state, $breadcrumb) {
-
-  $rootScope.isActive = function(stateName) {
-    return $state.includes(stateName);
-  }
-
-
 });
-
-

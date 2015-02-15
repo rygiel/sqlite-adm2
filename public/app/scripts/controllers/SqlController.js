@@ -1,19 +1,35 @@
-SqlController = Class.extend( {
+(function(){
 
-  init: function($scope  ){
+  var SqlController = Class.extend( {
 
-     $scope.editorOptions = {
-        lineWrapping : true,
-        lineNumbers: true,
-        mode: 'sql'
-      };
+    init: function($scope , $state  ){
 
 
-  }
+       $scope.stateParams = $state.params ;
+       $scope.tabs = $state.$current.self.tabs ;
 
-});
-angular.module('sulidaeApp').controller('SqlController',
+       $scope.tabClass = function(state){
 
-['$scope' ,  SqlController ]
+         if ( state === $state.current.name ) return "active";
 
-);
+         return "";
+
+       }
+
+       $scope.editorOptions = {
+          lineWrapping : true,
+          lineNumbers: true,
+          mode: 'sql'
+        };
+
+
+    }
+
+  });
+  angular.module('sulidaeApp').controller('SqlController',
+
+  ['$scope' , '$state' ,  SqlController ]
+
+  );
+
+})();
