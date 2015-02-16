@@ -6,6 +6,7 @@
 body {
   padding-top: 50px;
 }
+.ace_editor { height: 100px; }
 
 
 /*

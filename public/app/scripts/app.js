@@ -16,7 +16,7 @@ angular.module('sulidaeApp', [
         'ngTouch',
         'ngTable',
         'ui.router.state',
-        'ui.codemirror',
+        'ui.ace',
         'ncy-angular-breadcrumb'
 
     ])
@@ -207,7 +207,7 @@ angular.module('sulidaeApp', [
         {state:'table.sql', title:'Sql'}
       ],
       resultIndex: 'result' ,
-      requestUrl: '/data/select/:dbName/:tableName' ,
+      requestUrl: '/data/query/:dbName' ,
 
       ncyBreadcrumb: {
         label: 'sql'

@@ -1,35 +1,48 @@
-(function(){
 
-  var SqlController = Class.extend( {
+var SqlController = Class.extend( {
 
-    init: function($scope , $state  ){
+  init: function($scope , $state , $http  ){
 
-
-       $scope.stateParams = $state.params ;
-       $scope.tabs = $state.$current.self.tabs ;
-
-       $scope.tabClass = function(state){
-
-         if ( state === $state.current.name ) return "active";
-
-         return "";
-
-       }
-
-       $scope.editorOptions = {
-          lineWrapping : true,
-          lineNumbers: true,
-          mode: 'sql'
-        };
+     var that = this ; 
+     $scope.stateParams = $state.params ;
+     $scope.tabs = $state.$current.self.tabs ;
 
 
-    }
 
-  });
-  angular.module('sulidaeApp').controller('SqlController',
+      this.requestUrl =  $state.$current.self.requestUrl ;
+      for (var key in $state.params ){
+        
+        this.requestUrl = this.requestUrl.replace(':'+key , $state.params[key] );
 
-  ['$scope' , '$state' ,  SqlController ]
+      }
 
-  );
 
-})();
+     $scope.tabClass = function(state){
+       if ( state === $state.current.name ) return "active";
+       return "";
+     }
+
+     $scope.onSubmit = function(){
+
+        $http.post( that.requestUrl , {statement: $scope.statement}).success(function(result){
+
+          console.log( result );
+
+        });
+
+       
+
+     }
+
+     $scope.statement = '\nSELECT * FROM '+$state.params.tableName+' LIMIT 0,10';
+
+
+  }
+
+});
+angular.module('sulidaeApp').controller('SqlController',
+
+['$scope' , '$state' , '$http' ,   SqlController ]
+
+);
+

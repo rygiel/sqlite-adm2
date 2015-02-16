@@ -4,11 +4,13 @@
 <ng-include src="'app/views/tabs.html'"></ng-include>
 
 
-<ui-codemirror ui-codemirror-opts="editorOptions"></ui-codemirror>
 
+<div ui-ace="{ useWrapMode : true, showGutter: false,theme:'dawn',mode: 'sql', firstLineNumber: 5,onLoad: aceLoaded,onChange: aceChanged }" ng-model="statement"></div>
 
+<br>
 
 <div class="btn-group" role="group">
-<button class="btn btn-default " type="button" >Submit</button>
-
+	<button class="btn btn-default " type="button" ng-click="onSubmit()" >Submit</button>
 </div>
+
+
