@@ -17,14 +17,10 @@ var sqliteQuery = Class.create ( base, {
 
 	routes: {
 
-		'/select/:dbname/:tblname':	{get:'select'} ,
-
-		'/query/:dbname':			{post:'query'},
-
-		'/insert/:dbname/:tblname':			{post:'insert'},
-
-		'/update/:dbname/:tblname/:rowid':			{post:'update'}
-
+		'/select/:dbname/:tblname':				{get:'select'} ,
+		'/query/:dbname':						{post:'query'},
+		'/insert/:dbname/:tblname':				{post:'insert'},
+		'/update/:dbname/:tblname/:rowid':		{post:'update'}
 
 	},
 
@@ -48,14 +44,22 @@ var sqliteQuery = Class.create ( base, {
 
 	},
 
-
+	/**
+	 *
+	 * @todo dopisac limitowanie dla SELECT
+	 */
 	query: function(req , res ){
+
+
+
 		this.result(req.body.statement , this._path +'/' + req.params.dbname , res );
+
+
 	},
 
 	select: function(req,res){
 
-		var sql = 'SELECT rowid , * FROM '+req.params.tblname+' LIMIT 0,100';
+		var sql = 'SELECT rowid , * FROM '+req.params.tblname+' LIMIT 0,10';
 		this.result(sql , this._path +'/' + req.params.dbname , res );
 
 	},

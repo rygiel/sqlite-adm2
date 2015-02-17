@@ -6,7 +6,7 @@
 <table class="table table-striped" ng-table="tableParams">
 
   <tbody>
-    <tr ng-repeat="row in $data">
+    <tr ng-repeat="row in result">
       <td data-title="'basename'"><a ui-sref="db({ dbName: row.basename })" title="Tables">{{ row.basename }}</a></td>
       <td>
 

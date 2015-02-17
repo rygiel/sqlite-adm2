@@ -2,42 +2,4 @@
 
 <ng-include src="'app/views/tabs.html'"></ng-include>
 
-<table class="table table-striped" ng-table="tableParams">
-
-  <thead>
-    <tr>
-      <th ng-repeat="key in keyWords">{{ key }}</th>
-
-
-    </tr>
-  </thead>
-
-
-  <tbody>
-    <tr ng-repeat="row in $data">
-
-
-
-      <td ng-repeat="key in keyWords" data-title="'{{ key }}'" >{{ row[key] }}</td>
-
-      <td>
-
-
-        <div class="btn-group">
-
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            Action <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu" role="menu">
-            <li><a ui-sref="table.update({ rowid: row['rowid'] , dbName: stateParams.dbName , tableName: stateParams.tableName })">Edit</a></li>
-            <li><a ng-href="">Delete</a></li>
-          </ul>
-
-        </div>
-
-
-      </td>
-    </tr>
-  </tbody>
-</table>
+<ng-include src="'app/views/browse-result.html'"></ng-include>

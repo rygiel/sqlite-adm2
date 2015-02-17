@@ -23,13 +23,10 @@
         }
 
         this.$scope.tabs = $state.$current.self.tabs ;
-
-
         this.requestUrl =  $state.$current.self.requestUrl ;
-        for (var key in $state.params ){
-          
+        
+        for (var key in $state.params ){        
           this.requestUrl = this.requestUrl.replace(':'+key , $state.params[key] );
-
         }
 
         this.resultIndex = $state.$current.self.resultIndex ;
@@ -62,15 +59,14 @@
           if ( data[that.resultIndex].length > 0 ){
 
             that.$scope.keyWords = _.keys( data[ that.resultIndex ][0]) ;
+            //that.initTable( that.ngTableParams ,data , that.resultIndex );
 
-            that.initTable( that.ngTableParams ,data , that.resultIndex );
+            that.$scope.result = data[ that.resultIndex ] ; 
 
           }
 
           if ( _.isFunction( callBack ) ) {
-
             callBack();
-
           }
 
         });
