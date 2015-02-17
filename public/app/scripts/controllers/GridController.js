@@ -5,15 +5,14 @@
        *
        *
        */
-      init: function($scope , ngTableParams , $http , $state    ){
+      init: function($scope ,  $http , $state    ){
 
 
         var that =this ;
 
-        this.ngTableParams = ngTableParams ; 
 
         this.$scope = $scope ;
-        this.$http = $http; 
+        this.$http = $http;
         this.$scope.stateParams = $state.params ;
 
 
@@ -24,8 +23,8 @@
 
         this.$scope.tabs = $state.$current.self.tabs ;
         this.requestUrl =  $state.$current.self.requestUrl ;
-        
-        for (var key in $state.params ){        
+
+        for (var key in $state.params ){
           this.requestUrl = this.requestUrl.replace(':'+key , $state.params[key] );
         }
 
@@ -52,16 +51,14 @@
        */
       defaultRequest: function( callBack ){
 
-        var that = this ; 
+        var that = this ;
 
         this.$http.get( this.requestUrl ).success(function(data) {
 
           if ( data[that.resultIndex].length > 0 ){
 
             that.$scope.keyWords = _.keys( data[ that.resultIndex ][0]) ;
-            //that.initTable( that.ngTableParams ,data , that.resultIndex );
-
-            that.$scope.result = data[ that.resultIndex ] ; 
+            that.$scope.result = data[ that.resultIndex ] ;
 
           }
 
@@ -77,7 +74,6 @@
 
   angular.module('sulidaeApp').controller('GridController',
 
-  ['$scope','ngTableParams','$http','$state'  ,  GridController ]
+  ['$scope','$http','$state'  ,  GridController ]
 
   );
-

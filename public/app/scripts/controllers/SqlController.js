@@ -1,11 +1,11 @@
 
 var SqlController = BaseController.extend( {
 
-  init: function($scope , $state , $http , ngTableParams ){
+  init: function($scope , $state , $http  ){
 
-     var that = this ; 
+     var that = this ;
 
-     this.$scope = $scope ; 
+     this.$scope = $scope ;
 
      $scope.stateParams = $state.params ;
      $scope.tabs = $state.$current.self.tabs ;
@@ -14,7 +14,7 @@ var SqlController = BaseController.extend( {
 
       this.requestUrl =  $state.$current.self.requestUrl ;
       for (var key in $state.params ){
-        
+
         this.requestUrl = this.requestUrl.replace(':'+key , $state.params[key] );
 
       }
@@ -32,20 +32,20 @@ var SqlController = BaseController.extend( {
           if (!_.isUndefined( data['result'] ) ){
 
             that.$scope.keyWords = _.keys( data[ 'result' ][0]) ;
-            that.$scope.result = data['result'] ; 
+            that.$scope.result = data['result'] ;
 
           } else {
             that.$scope.keyWords = [];
-            that.$scope.result = []; 
+            that.$scope.result = [];
           }
-          
 
-          
+
+
 
 
         });
 
-       
+
 
      }
 
@@ -57,7 +57,6 @@ var SqlController = BaseController.extend( {
 });
 angular.module('sulidaeApp').controller('SqlController',
 
-['$scope' , '$state' , '$http' , 'ngTableParams',  SqlController ]
+['$scope' , '$state' , '$http' ,   SqlController ]
 
 );
-

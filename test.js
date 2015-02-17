@@ -1,18 +1,25 @@
-//var Q			= require('q');
+var simpleSqlParser = require('simple-sql-parser');
+var sqlParser = require('sql-parser');
+
+var lexer = sqlParser.lexer ;
+var parser = sqlParser.parser ;
+
+
+var _ 			= require('underscore') ;
 
 
 
-var schema = require('./app/models/schema');
-var db = new schema("./db/system.sqlite3");
 
-db.getTables()
-	.then(function(tables){
 
-		console.log( tables );
 
-	})
-	.fail(function( error){
+var q =
+"SELECT field1,field2 FROM table1 UNION SELECT field1,field2 FROM table1   ";
 
-		console.log ( error ) ;
+var t = lexer.tokenize(q);
+console.log  ( t );
 
-	});
+
+console.log ( parser.parse(t).toString() );
+
+
+//console.log ( sqlParser.parse( t ).toString() );
